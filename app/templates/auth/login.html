@@ -1,27 +1,141 @@
 <!DOCTYPE html>
-{% extends 'study/base.html' %}
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <title>Login</title>
-</head>
-<body>
-    {% with messages = get_flashed_messages() %}
-        {% if messages %}
-            <ul>
-                {% for message in messages %}
-                    <li style="color: red;">{{ message }}</li>
-                {% endfor %}
-            </ul>
-        {% endif %}
-    {% endwith %}
+    <style>
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-    <h1>Login</h1>
-    <form method="POST">
-        <label for "username">Username:</label><br>
-        <input type="text" name="username" required><br>
-        <label for "password">Password:</label><br>
-        <input type="text" name="password" required><br><br>
-        <input type="submit" value="Login">
-    </form>
+        .fade-in-animation {
+            animation: fadeInUp 1.5s ease-out forwards;
+        }
+
+        .title {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #3aa2ec;
+            margin-bottom: 20px;
+            text-align: center;
+            animation: fadeInUp 1.5s ease-out forwards;
+            font-family: 'Arial', sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 40px;
+            background: linear-gradient(135deg, #667eea 0%, #3aa2ec 100%);
+            color: rgb(255, 255, 255);
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+        }
+
+        body {
+            background-color: #f0f4f8;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-header {
+            padding: 20px 20px 20px;
+            text-align: center;
+            width: 300px;
+            margin: 0 auto;
+            color:rgb(0, 0, 0);
+            border-radius: 8px;
+        }
+
+        .login-header h1 {
+            color: rgb(0, 0, 0);
+            font-size: 3em;
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .login-form {
+            max-width: 400px;
+            margin: 40px auto;
+            padding: 30px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .login-form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: rgb(0, 0, 0);
+            padding: 5px 0px 5px;
+            border-radius: 4px;
+            width: 100px;
+        }
+
+        .login-form input[type="text"],
+        .login-form input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        .login-form input[type="submit"] {
+            background: #3aa2ec;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        .login-form input[type="submit"]:hover {
+            background: #2d8cd6;
+        }
+
+        ul {
+            color: red;
+            text-align: center;
+            list-style-type: none;
+            padding: 10px;
+        }
+    </style>  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>  
+</head>
+
+<body class="bg-white h-full flex items-center justify-center px-6 py-20">
+    <div class="text-center fade-in-animation max-w-2xl">
+        <h1 class="title">
+            Welcome to Intelligent Tutoring System
+        </h1>
+    </div>   
+    <div class="text-center fade-in-animation max-w-2xl"> 
+        <div class="login-header">
+            <h1>
+                Login
+            </h1><br>
+            Log in to your account to access personalized learning and smart feedback.
+        </div>
+        <form method="POST" class="login-form">
+            
+            <label for "username">Username</label>
+            <input type="text" name="username" id="username" placeholder="Username" required><br>
+            
+            <label for "password">Password</label>
+            <input type="password" name="password" id="password" placeholder="Password" required><br><br>
+            
+            <input type="submit" value="Login">
+        </form>
+    </div>    
 </body>
+
 </html>        
