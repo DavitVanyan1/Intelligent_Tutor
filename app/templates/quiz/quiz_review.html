@@ -1,0 +1,531 @@
+{% extends 'study/base.html' %}
+{% block content %}
+<div class="quiz-review-container">
+  <div class="review-header">
+    <h2 class="review-title">📊 Quiz Review: {{ topic_title }}</h2>
+    <div class="score-summary">
+      <div class="score-circle">
+        <span class="score-text">{{ score }}%</span>
+        <span class="score-label">Score</span>
+      </div>
+      <div class="stats-grid">
+        <div class="stat-item correct">
+          <span class="stat-number">{{ correct_count }}</span>
+          <span class="stat-label">Correct</span>
+        </div>
+        <div class="stat-item incorrect">
+          <span class="stat-number">{{ incorrect_count }}</span>
+          <span class="stat-label">Incorrect</span>
+        </div>
+        <div class="stat-item total">
+          <span class="stat-number">{{ total_questions }}</span>
+          <span class="stat-label">Total</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="questions-review">
+    {% for q in quiz_data %}
+      <div class="review-card fade-in" style="animation-delay: 100ms;">
+        <div class="question-header">
+          <span class="question-number">{{ loop.index }}</span>
+          <h3 class="question-text">{{ q['question'] }}</h3>
+          <div class="result-badge {{ 'correct' if user_answers[q['question']] == q['answer'] else 'incorrect' }}">
+            {% if user_answers[q['question']] == q['answer'] %}
+              <svg class="result-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+              </svg>
+            {% else %}
+              <svg class="result-icon" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+              </svg>
+            {% endif %}
+          </div>
+        </div>
+        
+        <div class="answers-section">
+          {% if q.type == 'multiple_choice' %}
+            <div class="options-grid">
+              {% for opt in q.options %}
+                <div class="option-review 
+                  {% if opt == q['answer'] %}correct-answer{% endif %}
+                  {% if opt == user_answers[q['question']] and opt != q['answer'] %}user-wrong{% endif %}
+                  {% if opt == user_answers[q['question']] and opt == q['answer'] %}user-correct{% endif %}">
+                  
+                  <div class="option-indicator">
+                    {% if opt == q['answer'] %}
+                      <svg class="indicator-icon correct" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                      </svg>
+                    {% elif opt == user_answers[q['question']] and opt != q['answer'] %}
+                      <svg class="indicator-icon incorrect" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                      </svg>
+                    {% else %}
+                      <div class="indicator-circle"></div>
+                    {% endif %}
+                  </div>
+                  
+                  <span class="option-text">{{ opt }}</span>
+                  
+                  {% if opt == user_answers[q['question']] %}
+                    <span class="selection-label">Your Answer</span>
+                  {% endif %}
+                  {% if opt == q['answer'] %}
+                    <span class="correct-label">Correct Answer</span>
+                  {% endif %}
+                </div>
+              {% endfor %}
+            </div>
+          
+          {% elif q.type == 'true_false' %}
+            <div class="true-false-review">
+              <div class="option-review 
+                {% if 'True' == q['answer'] %}correct-answer{% endif %}
+                {% if 'True' == user_answers[q['question']] and 'True' != q['answer'] %}user-wrong{% endif %}
+                {% if 'True' == user_answers[q['question']] and 'True' == q['answer'] %}user-correct{% endif %}">
+                
+                <div class="option-indicator">
+                  {% if 'True' == q['answer'] %}
+                    <svg class="indicator-icon correct" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  {% elif 'True' == user_answers[q['question']] and 'True' != q['answer'] %}
+                    <svg class="indicator-icon incorrect" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                  {% else %}
+                    <div class="indicator-circle"></div>
+                  {% endif %}
+                </div>
+                
+                <span class="option-text">✓ True</span>
+                
+                {% if 'True' == user_answers[q['question']] %}
+                  <span class="selection-label">Your Answer</span>
+                {% endif %}
+                {% if 'True' ==q['answer'] %}
+                  <span class="correct-label">Correct Answer</span>
+                {% endif %}
+              </div>
+              
+              <div class="option-review 
+                {% if 'False' ==q['answer'] %}correct-answer{% endif %}
+                {% if 'False' == user_answers[q['question']] and 'False' !=q['answer'] %}user-wrong{% endif %}
+                {% if 'False' == user_answers[q['question']] and 'False' ==q['answer'] %}user-correct{% endif %}">
+                
+                <div class="option-indicator">
+                  {% if 'False' ==q['answer'] %}
+                    <svg class="indicator-icon correct" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                  {% elif 'False' == user_answers[q['question']] and 'False' !=q['answer'] %}
+                    <svg class="indicator-icon incorrect" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                    </svg>
+                  {% else %}
+                    <div class="indicator-circle"></div>
+                  {% endif %}
+                </div>
+                
+                <span class="option-text">✗ False</span>
+                
+                {% if 'False' == user_answers[q['question']] %}
+                  <span class="selection-label">Your Answer</span>
+                {% endif %}
+                {% if 'False' ==q['answer'] %}
+                  <span class="correct-label">Correct Answer</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  
+  <div class="action-buttons">
+    <a href="{{ url_for('study.study_home') }}" class="btn btn-secondary">
+      <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"></path>
+      </svg>
+      Back to Study
+    </a>
+  </div>
+</div>
+
+<style>
+.quiz-review-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.review-header {
+  text-align: center;
+  margin-bottom: 40px;
+  padding: 30px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 16px;
+  color: white;
+  box-shadow: 0 10px 30px rgba(102, 126, 234, 0.3);
+}
+
+.review-title {
+  margin: 0 0 25px 0;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.score-summary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(10px);
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.score-text {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.score-label {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0.9;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 15px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.stat-number {
+  display: block;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 12px;
+  font-weight: 500;
+  opacity: 0.8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.questions-review {
+  margin-bottom: 40px;
+}
+
+.review-card {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s ease;
+  opacity: 0;
+}
+
+.review-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+}
+
+.question-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 25px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #f3f4f6;
+  position: relative;
+}
+
+.question-number {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  flex-shrink: 0;
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3);
+}
+
+.question-text {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: #1f2937;
+  line-height: 1.4;
+  flex: 1;
+}
+
+.result-badge {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.result-badge.correct {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.result-badge.incorrect {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.result-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.answers-section {
+  padding-left: 55px;
+}
+
+.options-grid, .true-false-review {
+  display: grid;
+  gap: 12px;
+}
+
+.true-false-review {
+  grid-template-columns: 1fr 1fr;
+}
+
+.option-review {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 15px 18px;
+  border: 2px solid #e5e7eb;
+  border-radius: 8px;
+  background: #fafafa;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.option-review.correct-answer {
+  border-color: #16a34a;
+  background: #dcfce7;
+}
+
+.option-review.user-wrong {
+  border-color: #dc2626;
+  background: #fef2f2;
+}
+
+.option-review.user-correct {
+  border-color: #16a34a;
+  background: #dcfce7;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.1);
+}
+
+.option-indicator {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.indicator-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.indicator-icon.correct {
+  color: #16a34a;
+}
+
+.indicator-icon.incorrect {
+  color: #dc2626;
+}
+
+.indicator-circle {
+  width: 16px;
+  height: 16px;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  background: white;
+}
+
+.option-text {
+  font-size: 16px;
+  color: #374151;
+  flex: 1;
+}
+
+.selection-label, .correct-label {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 4px 8px;
+  border-radius: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.selection-label {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+.correct-label {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid #f3f4f6;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.btn-primary {
+  background-color: #3b82f6;
+  color: white;
+}
+
+.btn-primary:hover {
+  background-color: #2563eb;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+}
+
+.btn-secondary {
+  background-color: #6b7280;
+  color: white;
+}
+
+.btn-secondary:hover {
+  background-color: #4b5563;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(107, 114, 128, 0.3);
+}
+
+.btn-icon {
+  width: 18px;
+  height: 18px;
+}
+
+/* Animation for review cards */
+@keyframes fadeIn {
+  0% { 
+    opacity: 0; 
+    transform: translateY(30px);
+  }
+  100% { 
+    opacity: 1; 
+    transform: translateY(0);
+  }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-out forwards;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .quiz-review-container {
+    padding: 15px;
+  }
+  
+  .review-card {
+    padding: 20px 15px;
+  }
+  
+  .answers-section {
+    padding-left: 0;
+    margin-top: 15px;
+  }
+  
+  .question-header {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
+  }
+  
+  .true-false-review {
+    grid-template-columns: 1fr;
+  }
+  
+  .score-summary {
+    flex-direction: column;
+    gap: 20px;
+  }
+  
+  .stats-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .btn {
+    width: 100%;
+    max-width: 300px;
+    justify-content: center;
+  }
+}
+</style>
+{% endblock %}

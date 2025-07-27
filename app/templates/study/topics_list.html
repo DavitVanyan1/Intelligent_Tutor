@@ -1,0 +1,15 @@
+{% extends 'study/base.html' %}
+{% block content %}
+<h2>Select a Topic to Study</h2>
+<div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+  {% for topic in topics %}
+    <div style="border: 1px solid #ccc; padding: 1rem; border-radius: 10px;">
+      <h3>{{ topic.icon }} {{ topic.title }}</h3>
+      <p>{{ topic.description }}</p>
+      <div class="button-container">
+        <a href="{{ url_for('study.study_module', topic_id=topic.id, module='learn') }}" class="btn btn-redirect2" role="button">Start Learning →</a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

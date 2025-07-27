@@ -1,0 +1,23 @@
+<!-- teaching.html -->
+{% extends 'study/base.html' %}
+{% block content %}
+  <h2>Teaching Mode: {{ topic_id.replace('_', ' ').title() }}</h2>
+  <form method="POST">
+    <label for="explanation">Explain the topic in your own words:</label><br>
+    <textarea name="explanation" rows="8" cols="70">{{ user_input or '' }}</textarea><br><br>
+    <div class="submit-container">
+      <button type="submit" class="btn btn-submit task-submit">
+        <span>Submit Quiz</span>
+        <svg class="submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </button>
+    </div>
+  </form>
+  {% if feedback %}
+    <div class="feedback">
+      <h4>AI Feedback:</h4>
+      <p>{{ feedback }}</p>
+    </div>
+  {% endif %}
+{% endblock %} 
