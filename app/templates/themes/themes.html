@@ -1,0 +1,18 @@
+{% extends 'study/base.html' %}
+{% block content %}
+<h1 class="text-3xl font-bold text-blue-700">Themes for Learning</h1>
+<h2 class="text-2xl font-bold mb-4 text-center text-teal-600">Let's select a theme and explore together</h2>
+
+<div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+  {% for theme in themes %}
+    <div style="border: 1px solid #ccc; padding: 1rem; border-radius: 10px; min-width: 200px;">
+      <h3 class="text-xl font-semibold">{{ theme.name }}</h3>
+      <div class="button-container mt-2">
+        <a href="{{ url_for('study.study_home', theme=theme.name) }}" class="btn btn-redirect2" role="button">
+          Start Learning →
+        </a>
+      </div>
+    </div>
+  {% endfor %}
+</div>
+{% endblock %}

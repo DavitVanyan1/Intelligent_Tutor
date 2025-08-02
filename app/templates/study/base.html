@@ -6,6 +6,7 @@
   <title>Intelligent Tutor</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
   
   <style>
@@ -228,7 +229,7 @@
           <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-redirect" role="button">Dashboard</a>
       </div>
       <div class="button-container">
-          <a href="{{ url_for('study.study_home') }}" class="btn btn-redirect" role="button">Study</a>
+          <a href="{{ url_for('themes.themes') }}" class="btn btn-redirect" role="button">Themes</a>
       </div>
       <div class="button-container">
           <a href="{{ url_for('tasks.tasks') }}" class="btn btn-redirect" role="button">Tasks</a>

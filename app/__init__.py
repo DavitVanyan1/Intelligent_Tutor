@@ -39,6 +39,9 @@ def create_app():
     from .routes.coding import coding_bp
     app.register_blueprint(coding_bp)
 
+    from .routes.themes import themes_bp
+    app.register_blueprint(themes_bp)
+
     from app.tasks.scheduler import start_background_thread
     start_background_thread()
 

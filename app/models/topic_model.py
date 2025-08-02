@@ -345,12 +345,21 @@ topics = [
 
 
 modules = ['learn', 'quiz', 'teach', 'code']
+from app import mongo
+from bson.objectid import ObjectId
+import json
 
-def get_all_topics():
+db = mongo.cx['intelligent_tutor']
+def get_all_topics(filter_by_name=None):
+    query = {}
+    if filter_by_name:
+        topics = dict(db['themes'].find_one({"name": filter_by_name}))['topics']
+        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
+        print(topics)
+        return topics
+    topics = list(db['themes'].find(query))
+    
     return topics
 
 def get_topic_by_id(topic_id):
-    for topic in topics:
-        if topic["id"] == topic_id:
-            return topic
-    return None
+    return db['topics'].find_one({"_id": topic_id})
