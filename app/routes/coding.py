@@ -2,8 +2,7 @@ from flask import Blueprint, session, redirect, url_for, request, flash, render_
 from app import mongo
 from bson.objectid import ObjectId
 from app.utils.gemini_api import ask_gemini
-import re
-from datetime import datetime
+import datetime
 
 coding_bp = Blueprint('coding', __name__)
 
@@ -47,7 +46,7 @@ def coding(topic_id, id=None):
 			"topic_id": topic_id,
 			"code": user_code,
 			"feedback": feedback,
-			"timestamp": datetime.utcnow()
+			"timestamp": datetime.datetime.now(tz=datetime.UTC)
 		})
 
 		if id:

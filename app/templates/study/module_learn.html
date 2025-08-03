@@ -1,4 +1,4 @@
-{% extends 'study/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 
 <pre id="markdown-content" style="display: none;">
@@ -13,7 +13,7 @@
 </div>
 
 <div class="mt-10">
-  <a href="{{ url_for('quiz.quiz', topic_id=topic.name) }}" class="bg-orange-500 hover:bg-orange-700 text-white px-6 py-3 rounded-xl shadow transition">➡️ Continue to Quiz</a>
+  <a href="{{ url_for('quiz.quiz', topic_id=topic.name) }}" class="btn btn-secondary bg-orange-500 hover:bg-orange-700 text-white px-6 py-3 rounded-xl shadow transition">➡️ Continue to Quiz</a>
 </div>
 
 <script>

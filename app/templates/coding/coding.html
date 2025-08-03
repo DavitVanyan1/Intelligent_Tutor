@@ -1,20 +1,32 @@
-{% extends "study/base.html" %}
+{% extends "base.html" %}
 {% block content %}
   <h2>💻 Coding Challenge: {{ topic_id.replace('_', ' ').title() }}</h2>
   <div class="task">
     <h4>Task:</h4>
     <p>{{ task }}</p>
-  </div>
+  </div><br>
   <form method="POST">
     <input type="hidden" name="task" value="{{ task }}">
     <label for="code">Your Python Code:</label><br>
     <textarea name="user_code" rows="12" cols="80" required>{{ user_code or '' }}</textarea><br><br>
-    <input type="submit" value="Submit Code">
+    <div class="submit-container">
+      <button type="submit" class="btn btn-submit task-submit">
+        <span>Submit</span>
+        <svg class="submit-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+      </button>
+    </div><br><br><br>
   </form>
 
   {% if feedback %}
+  <div class="feedback">
     <hr>
     <h4>AI Evaluation:</h4>
     <p>{{ feedback }}</p>
+  </div>  
+  <a href="{{ url_for('dashboard.dashboard') }}" class="btn btn-secondary">
+    Return to Dashboard
+  </a>
   {% endif %}
 {% endblock %}

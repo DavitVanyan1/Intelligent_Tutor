@@ -3,6 +3,7 @@ from app.utils.quiz_generator import generate_quiz
 from app.utils.performance_tracker import update_review_log
 from bson.objectid import ObjectId
 from app import mongo
+import datetime
 
 
 quiz_bp = Blueprint('quiz', __name__)
@@ -44,7 +45,8 @@ def quiz(topic_id, id=None):
             "user_id": ObjectId(user_id),
             "topic_id": topic_id,
             "score": score,
-            "submitted_answers": str(answers)
+            "submitted_answers": str(answers),
+            "timestamp": datetime.datetime.now(tz=datetime.UTC)
         })
 
         if id:

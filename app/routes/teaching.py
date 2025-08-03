@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session, redirect, url_fo
 from app.utils.gemini_api import ask_gemini
 from app import mongo
 from bson.objectid import ObjectId
+import datetime
 
 teaching_bp = Blueprint('teaching', __name__)
 
@@ -27,9 +28,19 @@ def teaching(topic_id, id=None):
         List out any gaps.'''
         feedback = ask_gemini(prompt)
 
+        db = mongo.cx['intelligent_tutor']
+
         if id:
-            db = mongo.cx['intelligent_tutor']
             db['review_tasks'].delete_one({'_id': ObjectId(id)})
+
+        user_id = session['user_id']
+        db['teaching_results'].insert_one({
+            "user_id": ObjectId(user_id),
+            "topic_id": topic_id,
+            "user_input": user_input,
+            "feedback": str(feedback),
+            "timestamp": datetime.datetime.now(tz=datetime.UTC)
+        })    
 
 
     return render_template('teaching/teaching.html', topic_id=topic_id, feedback=feedback, user_input=user_input)

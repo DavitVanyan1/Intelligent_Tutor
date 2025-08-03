@@ -1,15 +1,12 @@
-{% extends 'study/base.html' %}
+{% extends 'base.html' %}
 {% block content %}
 <h1 class="text-3xl font-bold text-blue-700">{{ theme }}: Topics to Learn</h1>
 <h2 class="text-2xl font-bold mb-4 text-center text-cyan-600">Let's select a topic and explore together</h2>
-<div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+<div class="grid-container" style="display: flex; flex-wrap: wrap; gap: 1rem;">
   {% for topic in topics %}
-    <div style="border: 1px solid #ccc; padding: 1rem; border-radius: 10px;">
-      <h3>{{ topic.icon }} {{ topic.name }}</h3>
-      <div class="button-container">
-        <a href="{{ url_for('study.study_module', topic_id=topic._id, module='learn') }}" class="btn btn-redirect2" role="button">Start Learning →</a>
-      </div>
-    </div>
+        <a href="{{ url_for('study.study_module', topic_id=topic._id, module='learn') }}" class="box">
+        <p class="text-gray-700">Start Learning {{ topic.name }}→</p>
+        </a>
   {% endfor %}
 </div>
 {% endblock %}
