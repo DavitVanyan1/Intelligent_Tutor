@@ -10,11 +10,10 @@ def tasks():
         flash("Please log in to access the tasks section.")
         return redirect(url_for('auth.login'))
 
+
     db = mongo.cx['intelligent_tutor']
-    task_list = db.review_tasks.find({
+    tasks = db['review_tasks'].find({
         "user_id": ObjectId(session['user_id'])
     }).sort("created_at", 1)
 
-    
-
-    return render_template("tasks/tasks.html", tasks=task_list)    
+    return render_template("tasks/tasks.html", tasks=tasks)    

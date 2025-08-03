@@ -3,7 +3,7 @@
 <h2>📋 Review Tasks</h2>
 {% for task in tasks %}
   <div style="border-bottom:1px solid #ccc;padding:10px;">
-    {{ loop.index }}. {{ task.topic_id.replace('_', ' ').title() }} — {{ task.module.title() }} — Priority: {{ task.priority.title() }}<br>
+    {{ loop.index }}. {{ task.topic_id.replace('_', ' ').title() }} — {{ task.module.title() }}<br>
     <div class="mt-4">
       <a href="{{ url_for(task.module + '.' + task.module, topic_id=task.topic_id, id=task['_id'] ) }}" class="bg-lime-500 hover:bg-orange-500 text-white px-6 py-3 rounded-xl shadow transition">➡️ Start Task</a>
     </div>

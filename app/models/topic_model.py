@@ -354,8 +354,6 @@ def get_all_topics(filter_by_name=None):
     query = {}
     if filter_by_name:
         topics = dict(db['themes'].find_one({"name": filter_by_name}))['topics']
-        print("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-        print(topics)
         return topics
     topics = list(db['themes'].find(query))
     

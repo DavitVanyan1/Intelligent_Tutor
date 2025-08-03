@@ -36,9 +36,8 @@ def suggest_review_task(user_id):
     Output format must be like this, what is written inside the double quotes, your response must not contain double quotes, and it must be plain text, not a json-formatted text:
     "
     {{
-      "topic_id": "stacks",
-      "module": "quiz",
-      "priority": "high"
+      "topic_id": "Stacks",
+      "module": "Quiz"
     }}
     "
     """
@@ -49,11 +48,10 @@ def suggest_review_task(user_id):
     import json
 
     try:
-        #task = {"Nothing": "nothing"}
         task = json.loads(task_json)
         task["user_id"] = ObjectId(user_id)
         task["created_at"] = datetime.utcnow()
         mongo.cx['intelligent_tutor']['review_tasks'].insert_one(task)
 
     except Exception as e:
-        print(f"[Review Task] Failed to parse or store: {e} Also, {task_json} and Also, {task}")    
+        print(f"[Review Task] Failed to parse or store: {e}")    
